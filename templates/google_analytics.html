@@ -1,0 +1,49 @@
+{% extends 'widgets/base.html' %}
+{% block title %}{% endblock %}
+{% block body %}
+  <!-- Google Analytics Widget Code -->
+  {% if (request.user.is_manager and widget.admin_logging) or (not request.user.is_manager) %}
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  
+    <script type="text/javascript">
+      var pageTracker = _gat._getTracker("{{ widget.uid }}");
+      {% if widget.tracking_domain_name
+        %}pageTracker._setDomainName("{{ widget.tracking_domain_name }}");{%
+      endif %}
+      pageTracker._initData();
+      pageTracker._trackPageview();
+    {% if widget.outbound_link_tracking %}
+      $(document).ready( function() {
+        //console.log('traversing links');
+        $('a').each( function() {
+          var url;
+          if ( this.href.match(TextPress.BLOG_URL) ) {
+            //console.log('Internal link', this.href);
+            if ( this.href.match(/\.({{ widget.extensions|string.replace(' ', '').replace(',', '|') }})$/) ) {
+              //console.log('Extension Listened', this.href);
+              url = this.pathname + this.search;
+            };
+          } else {
+            //console.log('External link', this.href);
+            var port = '';
+            if ( this.port != '') port = ':'+this.port;
+            url = '{{ widget.google_external_path }}' + this.hostname + port + this.pathname + this.search
+          };
+          //console.log(1, url)
+          if ( url ) {
+            $(this).click( function() {
+                //alert(url);
+                pageTracker._trackPageview(url);
+            });
+          };
+        });
+      });
+    {% endif %}
+    </script>
+  {% else %}
+    <!-- Google Analytics Code Disabled By Options -->
+  {% endif %}
+{% endblock %}

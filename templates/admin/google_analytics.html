@@ -1,0 +1,70 @@
+{% for error in errors %}<div class="message message-error">{{ error }}</div>{% endfor %}
+<form action="" method="post">
+  <div class="message">This code is based on the new Google Analytics
+    javascript code. Consider that when going to the
+    <a href="http://www.google.com/support/googleanalytics/">Google Analytics
+    FAQ</a> if needed.
+  </div>
+  <dl>
+    <dt>{% trans "UID" %}</dt>
+    <dd>
+      {{ h.input_field('uid', form.uid) }}
+      <div class="message message-configure">
+        Enter your Google Analytics' UID in this box.
+        The UID is needed for Google Analytics to log your website stats.
+        Your UID can be found by looking in the JavaScript Google Analytics
+        gives you to put on your page. Look for your UID in between
+        <strong><tt>var pageTracker = _gat._getTracker("UA-111111-11");</tt></strong>
+        in the javascript.<br/>
+        In this example you would put <strong>UA-11111-1</strong> in the
+        UID box.</div>
+    </dd>
+    <dt>{% trans "Admin Logging" %}</dt>
+    <dd>
+      {{ h.checkbox('admin_logging', form.admin_logging) }}
+      <div class="message message-configure">Disabling this option will
+        prevent all logged in TextPress admins from showing up on your Google
+        Analytics reports. A TextPress admin is defined as a user with a level
+        of 4 or higher.</div>
+    </dd>
+    <dt>{% trans "Outbound Link Tracking" %}</dt>
+    <dd>
+      {{ h.checkbox('outbound_link_tracking', form.outbound_link_tracking) }}
+      <div class="message message-configure">Disabling this option will turn
+        off the tracking of outbound links. It's recommended not to disable
+        this option unless you're a privacy advocate (now why would you be
+        using Google Analytics in the first place?) or it's causing some kind
+        of weird issue.</div>
+    </dd>
+    <dt>{% trans "Google Analytics External Path Prefix" %}</dt>
+    <dd>
+      {{ h.input_field('google_external_path', form.google_external_path) }}
+      <div class="message message-configure">This will be the path shown on
+        Google Analytics regarding external links. Consider the following
+        link:<br/>
+        <strong><tt>&lt;a href="http://textpress.pocoo.org/">TextPress&lt;/a&gt;</tt></strong><br/>
+        The above link will be shown as
+        <strong><tt>{{ form.google_external_path }}textpress.pocoo.org/</tt></strong>.<br/>
+        This way you will be able to track outgoing links.<br/>
+        <em>Outbound link tracking must be enabled for external links to be
+          tracked.</em></div>
+    </dd>
+    <dt>{% trans "Download Extensions To Track" %}</dt>
+    <dd>
+      {{ h.input_field('extensions', form.extensions) }}
+      <div class="message message-configure">Enter any extensions of files you
+        would like to be tracked as a download. For example to track all MP3s
+        and PDFs enter
+        <strong>mp3,pdf</strong>.<br/><em>Outbound link tracking must be enabled
+          for downloads to be tracked.</em></div>
+    </dd>
+    <dt>{% trans "Tracking Domain Name" %}</dt>
+    <dd>
+      {{ h.input_field('tracking_domain_name', form.tracking_domain_name) }}
+      <div class="message message-configure">If you're tracking multiple
+        subdomains with the same Google Analytics profile, like what's talked
+        about
+        <a href="https://www.google.com/support/googleanalytics/bin/answer.py?answer=55524">here</a>,
+        enter your main domain here. For more info, please visit the previous link.</div>
+  </dl>
+</form>
